@@ -8,7 +8,7 @@ import DRAMA from "./EventIcons/DRAMA.png";
 import FASHION from "./EventIcons/FASHION.png";
 import LITERACY from "./EventIcons/LITERACY.png";
 import MUSIC from "./EventIcons/MUSIC.png";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../components/PageHeader/PageHeader";
@@ -29,8 +29,16 @@ const categories = [
 export default function EventPage() {
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [isAdmin, setIsAdmin] = useState(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "null");
-    return user?.is_admin === true;
+    try {
+      const userString = localStorage.getItem("user");
+      if (!userString) return false;
+
+      const user = JSON.parse(userString);
+      return Boolean(user?.is_admin);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+      return false;
+    }
   });
 
   const navigate = useNavigate();
@@ -87,9 +95,8 @@ export default function EventPage() {
             <motion.div
               key={index}
               onClick={() => setActiveCategory(cat.categoryname)}
-              className={`event-category-item ${
-                activeCategory === cat.categoryname ? "active" : ""
-              }`}
+              className={`event-category-item ${activeCategory === cat.categoryname ? "active" : ""
+                }`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 + index * 0.05, duration: 0.4 }}
