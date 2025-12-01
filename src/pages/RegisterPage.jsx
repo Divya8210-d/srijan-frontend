@@ -50,6 +50,7 @@ function RegisterPage() {
       );
 
       toast.success("Login successful!");
+      localStorage.setItem("user", JSON.stringify(res.user));
       navigate("/")
     } catch (error) {
       console.log(error);
@@ -173,7 +174,7 @@ function RegisterPage() {
 
 
 
-       
+
         </div>
       )}
 
@@ -190,7 +191,7 @@ function RegisterPage() {
       <div className="w-full  flex justify-center items-center px-4">
     <div className="rounded-2xl bg-[#501d8a] border-2 border-[#FED000] max-w-md w-full p-6 shadow-xl">
 
-     
+
 
       {/* LOGIN FORM */}
       <form onSubmit={loginUser} className="flex flex-col gap-4 mt-4">
@@ -243,7 +244,7 @@ function RegisterPage() {
 
     </div>
   </div></div>
-  
+
 )}
 
     </>
