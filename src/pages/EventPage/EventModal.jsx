@@ -1,10 +1,50 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import "./EventModal.css";
 
 const EventModal = ({ isOpen, onClose, eventData }) => {
-  if (!eventData) return null;
 
+
+  // const [formData, setFormData] = useState({
+  //   event_name: "",
+  //   event_category: "DANCE",
+  //   venue: "",
+  //   description: "",
+  //   bg_image_url: "",
+  //   rulebook: "",
+  //   rules: [""],
+  // });
+
+  // const handleSubmit = async (e) => {
+  //       e.preventDefault();
+  //       onclose;
+  //       try{
+  //           const response = await fetch(
+  //               `https://srijan-2026.onrender.com/api/v1/events/${eventData.id}/register`,
+  //               {
+  //                 method: "POST",
+  //                 headers: {
+  //                   "Content-Type": "application/json",
+  //                 },
+  //                 body: JSON.stringify(formData),
+  //               }
+  //           );
+  //           if(!response.ok){
+  //             throw new Error(`HTTP error! status: ${response.status}`);
+  //           }else{
+  //             alert("Registered Successfully!");
+  //           }
+  //       }catch(error){
+  //         alert("Failed to Register " + error.message);
+  //       }
+  //   };
+
+  // above code for registration form
+
+
+
+  if (!eventData) return null;
   return (
     <AnimatePresence>
       {isOpen && (
@@ -112,7 +152,7 @@ const EventModal = ({ isOpen, onClose, eventData }) => {
                 </motion.div>
               )}
 
-              {eventData.coordinator_names && 
+              {eventData.coordinator_names &&
                eventData.coordinator_names.filter(n => n).length > 0 ? (
                 <motion.div
                   className="event-modal-section"
@@ -136,9 +176,9 @@ const EventModal = ({ isOpen, onClose, eventData }) => {
                       >
                         <div className="coordinator-info">
                           <span className="coordinator-name">{name}</span>
-                          {eventData.coordinator_phone && 
+                          {eventData.coordinator_phone &&
                            eventData.coordinator_phone[index] ? (
-                            <a 
+                            <a
                               href={`tel:${eventData.coordinator_phone[index]}`}
                               className="coordinator-phone"
                             >

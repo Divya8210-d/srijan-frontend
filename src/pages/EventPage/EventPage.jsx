@@ -8,7 +8,7 @@ import DRAMA from "./EventIcons/DRAMA.png";
 import FASHION from "./EventIcons/FASHION.png";
 import LITERACY from "./EventIcons/LITERACY.png";
 import MUSIC from "./EventIcons/MUSIC.png";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../../components/PageHeader/PageHeader";
@@ -28,13 +28,37 @@ const categories = [
 
 export default function EventPage() {
   const [activeCategory, setActiveCategory] = useState("ALL");
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [events, setEvents] = useState([]);
+
+  const [isAdmin, setIsAdmin] = useState(() => {
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    return user?.is_admin === true;
+  });
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const url = activeCategory === "ALL"
+          ? "https://srijan-2026.onrender.com/api/v1/event/all"
+          : `https://srijan-2026.onrender.com/api/v1/events/category/${activeCategory}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch events");
+        const data = await response.json();
+        setEvents(data);// events will be set in events,use it in frontend as needed
+      } catch(err){
+        console.error("Error fetching events:", err);
+      }
+    };
+    fetchEvents();
+  }, [activeCategory]);
+
 
   return (
     <div className="event-page-container">
       <div className="event-page-content">
-        <PageHeader 
+        <PageHeader
           title="EVENTS"
           subtitle="Explore the vibrant spectrum of cultural celebrations"
           showBackButton={true}
@@ -50,18 +74,18 @@ export default function EventPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            whileHover={{ 
+            whileHover={{
               scale: 1.05,
               boxShadow: "0 0 25px rgba(254, 208, 0, 0.6)"
             }}
             whileTap={{ scale: 0.95 }}
           >
-            <svg 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
               strokeWidth="2"
             >
               <path d="M12 5v14M5 12h14" />
