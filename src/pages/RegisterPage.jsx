@@ -56,7 +56,7 @@ function RegisterPage() {
       );
 
       toast.success("Login successful!");
-      localStorage.setItem("user", JSON.stringify(res.user));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       navigate("/")
     } catch (error) {
         console.log(error);
